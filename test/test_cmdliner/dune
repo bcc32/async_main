@@ -1,0 +1,15 @@
+(executables
+ (names test_cmdliner)
+ (libraries async_main cmdliner)
+ (preprocess (pps ppx_jane)))
+
+(rule
+ (with-stdout-to test_cmdliner.output
+  (progn
+   (run ./test_cmdliner.exe)
+   (run ./test_cmdliner.exe -l20)
+   (run ./test_cmdliner.exe --limit=5))))
+
+(alias
+ (name runtest)
+ (action (diff test_cmdliner.expected test_cmdliner.output)))

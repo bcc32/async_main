@@ -1,0 +1,4 @@
+(tests
+ (names test_main test_main_or_error test_staged test_staged_or_error)
+ (libraries async_main)
+ (preprocess (pps ppx_jane)))

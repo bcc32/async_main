@@ -1,0 +1,5 @@
+(library
+ (name async_main)
+ (public_name async_main)
+ (libraries async)
+ (synopsis "Run Async.Deferred.t-returning main commands"))
