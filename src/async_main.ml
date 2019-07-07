@@ -1,6 +1,10 @@
 open! Core
 open! Async
 
+(* Implementation cribbed from
+   https://github.com/janestreet/async_extra/blob/c05ff6dd6af95c781ce8d7883e13074cfce9f5ab/src/command.ml,
+   which is licensed under the MIT license. *)
+
 type 'a command = ?extract_exn:bool -> 'a -> (unit -> unit) Staged.t
 
 let shutdown_with_error e =
