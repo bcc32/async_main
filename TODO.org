@@ -1,0 +1,11 @@
+* TODO Add convenience package for cmdliner terms
+** TODO More general type for ~in_async~
+#+BEGIN_SRC ocaml
+val in_async
+  :  ?extract_exn:bool
+  -> on_result:('a -> unit)
+  -> (unit -> 'a Deferred.t)
+  -> (unit -> unit) Staged.t
+#+END_SRC
+* TODO Add README
+* TODO Attribution to Async.Command
