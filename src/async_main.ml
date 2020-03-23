@@ -10,7 +10,7 @@ let shutdown_with_error e =
        shutdown only waits for flush of the output written before [shutdown] was called.
        We want to make sure the error is seen.  We delay it until [at_exit] to avoid
        interleaving this with flushing of Async writers. *)
-    Core.prerr_endline (Error.to_string_hum e) );
+    Core.prerr_endline (Error.to_string_hum e));
   shutdown 1
 ;;
 
@@ -52,12 +52,13 @@ let in_async ?extract_exn on_result staged_main =
       let before_shutdown () =
         Deferred.List.iter
           ~how:`Parallel
-          Writer.[force stdout; force stderr]
+          Writer.[ force stdout; force stderr ]
           ~f:(fun writer ->
             Deferred.any_unit
               [ Writer.close_finished writer
               ; Writer.consumer_left writer
-              ; Writer.flushed writer ] )
+              ; Writer.flushed writer
+              ])
       in
       Shutdown.at_shutdown before_shutdown;
       Shutdown.set_default_force
@@ -66,14 +67,14 @@ let in_async ?extract_exn on_result staged_main =
            Deferred.all_unit
              (* The 1s gives a bit of time to the process to stop silently rather than with
                 a "shutdown forced" message and exit 1 if [prev ()] finished first. *)
-             [prev (); (before_shutdown () >>= fun () -> after (sec 1.))]);
+             [ prev (); (before_shutdown () >>= fun () -> after (sec 1.)) ]);
       upon
         (Deferred.Or_error.try_with ?extract_exn (fun () -> main `Scheduler_started))
         on_result;
-      (never_returns (Scheduler.go ()) : unit) )
+      (never_returns (Scheduler.go ()) : unit))
 ;;
 
-type 'r staged = ([`Scheduler_started] -> 'r) Staged.t
+type 'r staged = ([ `Scheduler_started ] -> 'r) Staged.t
 
 module Staged = struct
   let async ?extract_exn staged_main =

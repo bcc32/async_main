@@ -1,10 +1,12 @@
 (executables
  (names test_cmdliner)
  (libraries async_main cmdliner)
- (preprocess (pps ppx_jane)))
+ (preprocess
+  (pps ppx_jane)))
 
 (rule
- (with-stdout-to test_cmdliner.output
+ (with-stdout-to
+  test_cmdliner.output
   (progn
    (run ./test_cmdliner.exe)
    (run ./test_cmdliner.exe -l20)
@@ -12,4 +14,5 @@
 
 (rule
  (alias runtest)
- (action (diff test_cmdliner.expected test_cmdliner.output)))
+ (action
+  (diff test_cmdliner.expected test_cmdliner.output)))

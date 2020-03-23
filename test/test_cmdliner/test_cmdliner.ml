@@ -5,7 +5,7 @@ open! Import
 let nat_pipe start =
   Pipe.create_reader ~close_on_exception:false (fun w ->
     Deferred.forever start (fun start -> Pipe.write w start >>| Fn.const (start + 1));
-    never () )
+    never ())
 ;;
 
 let filter_multiples_of ~divisor = Pipe.filter ~f:(fun n -> n % divisor <> 0)
@@ -19,7 +19,7 @@ let prime_pipe () =
         let%bind () = Pipe.write w n in
         loop (filter_multiples_of input ~divisor:n)
     in
-    loop (nat_pipe 2) )
+    loop (nat_pipe 2))
 ;;
 
 let print_first_n_primes num_values () =
@@ -28,7 +28,7 @@ let print_first_n_primes num_values () =
   | `Exactly primes -> print_s [%sexp (primes : int Queue.t)]
 ;;
 
-let limit = Arg.(value & opt int 10 & info ~docv:"LIMIT" ["l"; "limit"])
+let limit = Arg.(value & opt int 10 & info ~docv:"LIMIT" [ "l"; "limit" ])
 
 let () =
   let main =

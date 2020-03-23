@@ -7,6 +7,7 @@ open! Core
 open! Async
 
 type 'a command = ?extract_exn:bool -> 'a -> (unit -> unit) Staged.t
+
 (* TODO doc comment below *)
 
 (** [async] is like [Core.Command.basic], except that the main function it expects returns
@@ -41,7 +42,7 @@ val async_or_error : (unit -> unit Deferred.Or_error.t) command
     ]}
 *)
 
-type 'r staged = ([`Scheduler_started] -> 'r) Staged.t
+type 'r staged = ([ `Scheduler_started ] -> 'r) Staged.t
 
 module Staged : sig
   val async : (unit -> unit Deferred.t staged) command
