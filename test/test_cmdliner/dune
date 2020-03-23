@@ -10,6 +10,6 @@
    (run ./test_cmdliner.exe -l20)
    (run ./test_cmdliner.exe --limit=5))))
 
-(alias
- (name runtest)
+(rule
+ (alias runtest)
  (action (diff test_cmdliner.expected test_cmdliner.output)))
